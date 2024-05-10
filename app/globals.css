@@ -2,32 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: rethink;
+  src: url(font/RethinkSans-VariableFont_wght.ttf);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+  font-family: poppins-medium;
+  src: url(font/Poppins-Medium.ttf);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@font-face {
+  font-family: poppins-bold;
+  src: url(font/Poppins-Bold.ttf);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+@font-face {
+  font-family: montserrat-bold;
+  src: url(font/Montserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: robotomono-medium;
+  src: url(font/RobotoMono-Medium.ttf);
+}
+
+p {
+  font-family: rethink;
+  font-weight: 500;
+}
+
+.font-rethink {
+  font-family: rethink;
+  font-weight: 500;
+}
+
+.font-robotomono {
+  font-family: robotomono-medium
+}
+
+.font-montserrat {
+  font-family: montserrat-bold;
+}
+
+.font-poppins-medium {
+  font-family: poppins-medium;
+}
+
+.font-poppins-bold {
+  font-family: poppins-bold;
 }

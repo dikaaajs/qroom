@@ -1,0 +1,26 @@
+POST http://localhost:3000/api/kuis
+Content-Type: application/json
+
+{
+    "headline": "masinco",
+    "questions": [{
+    "paragraf": "apa yang disebut tahi",
+    "image": null,
+    "options": [{"paragraf": "apa yah"}, {"paragraf": "ituh kali"}]
+    }]
+}
+
+###
+
+PATCH http://localhost:3000/api/kuis?v=66222632c496dd66d2ad66e5
+Content-Type: application/json
+
+{
+    "headline": "jawa sir"
+}
+
+###
+GET http://localhost:3000/api/kuis
+
+###
+DELETE http://localhost:3000/api/kuis?v=66222632c496dd66d2ad66e5
