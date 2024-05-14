@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  console.log(status);
   return (
     <nav className="flex justify-between text-white py-[20px] px-[30px] items-center">
       <h1 className="font-montserrat text-[1.5rem]">zaloid</h1>
