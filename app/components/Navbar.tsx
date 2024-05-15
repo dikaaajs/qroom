@@ -7,7 +7,9 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   return (
     <nav className="flex justify-between text-white py-[20px] px-[30px] items-center">
-      <h1 className="font-montserrat text-[1.5rem]">zaloid</h1>
+      <Link href={"/"} className="font-montserrat text-[1.5rem]">
+        zaloid
+      </Link>
 
       {/* navigation md */}
       <ul className="md:flex hidden gap-[25px] font-robotomono">

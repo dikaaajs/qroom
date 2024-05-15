@@ -2,7 +2,7 @@ POST http://localhost:3000/api/account
 Content-Type: application/json
 
 {
-    "name": "guru bilek",
+    "name": "",
     "email": "andikaasda@gmail.com",
     "password": "adachikawai",
     "image": "/defaultpp.webp",
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/api/account
+GET http://localhost:3000/api/account?n=andika
 
 ###
 DELETE http://localhost:3000/api/account?v=662711eee62da802cb3ddaf0

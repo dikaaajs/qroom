@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 import connectMongoDB from "@/libs/database/mongodb";
 import bcrypt from "bcrypt";
+import Account from "@/models/account";
 
 type User = {
   _id: string;
@@ -27,24 +28,24 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        const { email, password } = credentials as {
-          email: string;
+        const { username, password } = credentials as {
+          username: string;
           password: string;
         };
 
         // login
         await connectMongoDB();
-        const user: User = await axios.get(`/api/account?e=${email}`);
-        if (user === null) {
+        const findUser = await Account.findOne({ username });
+        if (findUser === null) {
           return null;
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, findUser.password);
         if (!passwordMatch) {
           return null;
         }
 
-        return { id: user._id, ...user };
+        return findUser;
       },
     }),
   ],

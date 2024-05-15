@@ -52,3 +52,13 @@ p {
 .font-poppins-bold {
   font-family: poppins-bold;
 }
+
+/* btn */
+.btn-blue {
+  @apply py-[7px] px-[15px] text-white bg-blue-500 rounded-[5px] font-rethink text-[.8rem] block w-fit
+}
+
+/* form */
+.input-form {
+  @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-[8px] px-[5px] text-gray-700 text-[.8rem] font-rethink leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+}
