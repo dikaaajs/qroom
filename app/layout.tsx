@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./AuthProvider";
+import Footer from "./components/Footer";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "zaloid",
@@ -15,6 +17,7 @@ export default function RootLayout({ children }: any) {
         <body>
           <Navbar />
           {children}
+          <Footer />
         </body>
       </AuthProvider>
     </html>

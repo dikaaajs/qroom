@@ -2,7 +2,7 @@ POST http://localhost:3000/api/kuis
 Content-Type: application/json
 
 {
-    "headline": "masinco",
+    "headline": "buakakaaka",
     "questions": [{
     "paragraf": "apa yang disebut tahi",
     "image": null,

@@ -1,0 +1,122 @@
+"use client";
+
+import Loading from "@/app/components/Loading";
+import Question from "@/app/components/Question";
+import getData from "@/libs/getDataUser";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+interface Option {
+  paragraf: string;
+  image: string[];
+}
+
+interface Question {
+  paragraf: string;
+  image: string[];
+  options: Option[];
+}
+
+export default function page() {
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
+  const [questions, setquestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    if (status === "authenticated" && session.user) {
+      getData({ name: `${session.user.name}`, setUser, setLoading });
+    }
+  }, [status]);
+
+  if (status === "unauthenticated") {
+    return (
+      <div>
+        <p>login terlebih dahulu</p>
+      </div>
+    );
+  }
+
+  return (
+    <main>
+      {loading || (status === "loading" && <Loading />)}
+
+      {status === "authenticated" && (
+        <form className="mx-4">
+          {/* top */}
+          <header className="card py-[50px] px-[20px]">
+            {/* header */}
+            <div className="text-center">
+              <h3 className="text-white font-poppins-bold text-2xl">
+                Create Quiz
+              </h3>
+              <p>create your own quiz</p>
+            </div>
+
+            {/* headline */}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                className="block py-2.5 px-0 w-full font-poppins-bold font-bold text-xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="floating_headline"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Headline
+              </label>
+            </div>
+
+            {/* description */}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
+                name="floating_description"
+                id="floating_description"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 font-rethink bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="floating_description"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                description
+              </label>
+            </div>
+          </header>
+
+          {/* questions */}
+          <div className="flex flex-col gap-[30px] mt-[50px]">
+            {/* card */}
+            {questions.map((e, idx) => {
+              return <Question index={idx} key={idx} />;
+            })}
+          </div>
+
+          {/* button */}
+          <button
+            className="btn-blue my-[30px] ml-auto mr-[20px] block"
+            type="button"
+            onClick={() => {
+              const tmp = [...questions];
+
+              const question: Question = {
+                paragraf: "",
+                image: [],
+                options: [],
+              };
+
+              tmp.push(question);
+              setquestions(tmp);
+            }}
+          >
+            <img src="/svg/add.svg" className="w-[20px] inline" alt="" />
+            question
+          </button>
+        </form>
+      )}
+    </main>
+  );
+}

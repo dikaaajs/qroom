@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: "credentials",
       credentials: {},
-      async authorize(credentials, req) {
+      async authorize(credentials: any, req) {
         const { username, password } = credentials as {
           username: string;
           password: string;
@@ -20,7 +20,8 @@ export const authOptions: NextAuthOptions = {
 
         // login
         await connectMongoDB();
-        const findUser = await Account.findOne({ username });
+        let findUser = await Account.findOne({ username });
+        console.log(username);
         if (findUser === null) {
           return null;
         }
@@ -30,6 +31,18 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        // const user = {
+        //   name: findUser.username,
+        //   image: findUser.image,
+        //   email: findUser.email,
+        // };
+
+        // if (user) {
+        //   return user;
+        // }
+
+        const tmp = findUser;
+        findUser.name = tmp.username;
         return findUser;
       },
     }),

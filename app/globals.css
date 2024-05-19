@@ -28,8 +28,7 @@
 }
 
 p {
-  font-family: rethink;
-  font-weight: 500;
+  @apply text-[.9rem] font-rethink font-normal text-gray-700 dark:text-gray-400
 }
 
 .font-rethink {
@@ -55,7 +54,16 @@ p {
 
 /* btn */
 .btn-blue {
-  @apply py-[7px] px-[15px] text-white bg-blue-500 rounded-[5px] font-rethink text-[.8rem] block w-fit
+  @apply py-[7px] px-[15px] text-white bg-blue-500 rounded-[5px] font-rethink text-[.8rem] w-fit
+}
+
+.btn {
+  @apply py-[7px] px-[15px] rounded-[5px] font-rethink text-[.8rem] w-fit
+}
+
+/* card */
+.card {
+  @apply border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700
 }
 
 /* form */

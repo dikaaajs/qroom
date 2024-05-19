@@ -2,6 +2,7 @@
 import ListOfError from "@/app/components/ListOfError";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -46,7 +47,7 @@ export default function page() {
 
   return (
     <main className="text-white">
-      <div className="text-center my-[60px] py-[50px] bg-white text-black px-[20px] mx-[20px] rounded-[5px]">
+      <div className="text-center mt-[60px] py-[50px] bg-white text-black px-[20px] mx-[20px] rounded-[5px]">
         <h1 className="font-poppins-bold text-[1.5rem] pb-[40px]">sign up</h1>
 
         <form className="flex flex-col gap-[20px]" onSubmit={handleSubmit}>
@@ -130,6 +131,15 @@ export default function page() {
             submit
           </button>
         </form>
+      </div>
+
+      <div className="py-[60px]">
+        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+          have an account ?{" "}
+          <Link href={"/auth/login"} className="text-blue-500">
+            login
+          </Link>
+        </p>
       </div>
     </main>
   );
