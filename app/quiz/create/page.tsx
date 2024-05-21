@@ -1,33 +1,38 @@
 "use client";
 
 import Loading from "@/app/components/Loading";
-import Question from "@/app/components/Question";
 import getData from "@/libs/getDataUser";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-interface Option {
-  paragraf: string;
-  image: string[];
-}
-
-interface Question {
-  paragraf: string;
-  image: string[];
-  options: Option[];
-}
+import { QuestionModel, QuizModel } from "../model";
+import Question from "@/app/components/Question";
 
 export default function page() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [questions, setquestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionModel[]>([]);
+  const [quiz, setQuiz] = useState<QuizModel>({
+    headline: " ",
+    description: " ",
+    questions: questions,
+  });
 
   useEffect(() => {
     if (status === "authenticated" && session.user) {
       getData({ name: `${session.user.name}`, setUser, setLoading });
     }
   }, [status]);
+
+  useEffect(() => {
+    const tmp: QuizModel = {
+      ...quiz,
+      questions: questions,
+    };
+    setQuiz(tmp);
+  }, [questions]);
+
+  console.log(quiz);
 
   if (status === "unauthenticated") {
     return (
@@ -59,6 +64,13 @@ export default function page() {
                 className="block py-2.5 px-0 w-full font-poppins-bold font-bold text-xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                onChange={(e) => {
+                  const tmp: QuizModel = {
+                    ...quiz,
+                    headline: e.target.value,
+                  };
+                  setQuiz(tmp);
+                }}
               />
               <label
                 htmlFor="floating_headline"
@@ -72,11 +84,17 @@ export default function page() {
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="text"
-                name="floating_description"
-                id="floating_description"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 font-rethink bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                onChange={(e) => {
+                  const tmp: QuizModel = {
+                    ...quiz,
+
+                    description: e.target.value,
+                  };
+                  setQuiz(tmp);
+                }}
               />
               <label
                 htmlFor="floating_description"
@@ -91,7 +109,14 @@ export default function page() {
           <div className="flex flex-col gap-[30px] mt-[50px]">
             {/* card */}
             {questions.map((e, idx) => {
-              return <Question index={idx} key={idx} />;
+              return (
+                <Question
+                  indexQuestion={idx}
+                  setQuestions={setQuestions}
+                  questions={questions}
+                  key={idx}
+                />
+              );
             })}
           </div>
 
@@ -102,14 +127,14 @@ export default function page() {
             onClick={() => {
               const tmp = [...questions];
 
-              const question: Question = {
+              const question: QuestionModel = {
                 paragraf: "",
                 image: [],
                 options: [],
               };
 
               tmp.push(question);
-              setquestions(tmp);
+              setQuestions(tmp);
             }}
           >
             <img src="/svg/add.svg" className="w-[20px] inline" alt="" />

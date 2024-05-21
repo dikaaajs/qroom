@@ -21,7 +21,6 @@ export const authOptions: NextAuthOptions = {
         // login
         await connectMongoDB();
         let findUser = await Account.findOne({ username });
-        console.log(username);
         if (findUser === null) {
           return null;
         }
@@ -30,16 +29,6 @@ export const authOptions: NextAuthOptions = {
         if (!passwordMatch) {
           return null;
         }
-
-        // const user = {
-        //   name: findUser.username,
-        //   image: findUser.image,
-        //   email: findUser.email,
-        // };
-
-        // if (user) {
-        //   return user;
-        // }
 
         const tmp = findUser;
         findUser.name = tmp.username;
