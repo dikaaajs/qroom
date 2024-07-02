@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { QuestionModel, QuizModel } from "../model";
 import Question from "@/app/components/Question";
+import Message from "@/app/components/Message";
 
 export default function page() {
   const { data: session, status } = useSession();
@@ -17,6 +18,13 @@ export default function page() {
     description: " ",
     questions: questions,
   });
+  const [popupSubmit, setPopupSubmit] = useState(false);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("object");
+    setPopupSubmit(!popupSubmit);
+  };
 
   useEffect(() => {
     if (status === "authenticated" && session.user) {
@@ -32,8 +40,6 @@ export default function page() {
     setQuiz(tmp);
   }, [questions]);
 
-  console.log(quiz);
-
   if (status === "unauthenticated") {
     return (
       <div>
@@ -43,11 +49,20 @@ export default function page() {
   }
 
   return (
-    <main>
+    <main className="min-h-screen">
       {loading || (status === "loading" && <Loading />)}
 
+      {popupSubmit && (
+        <Message
+          headline="are you sure"
+          pesan=""
+          state={setPopupSubmit}
+          value={popupSubmit}
+        />
+      )}
+
       {status === "authenticated" && (
-        <form className="mx-4">
+        <form className="mx-4" onSubmit={handleSubmit}>
           {/* top */}
           <header className="card py-[50px] px-[20px]">
             {/* header */}
@@ -121,25 +136,36 @@ export default function page() {
           </div>
 
           {/* button */}
-          <button
-            className="btn-blue my-[30px] ml-auto mr-[20px] block"
-            type="button"
-            onClick={() => {
-              const tmp = [...questions];
+          <div className="flex gap-5 justify-end">
+            {/* add question */}
+            <button
+              className="btn-blue block"
+              type="button"
+              onClick={() => {
+                const tmp = [...questions];
 
-              const question: QuestionModel = {
-                paragraf: "",
-                image: [],
-                options: [],
-              };
+                const question: QuestionModel = {
+                  paragraf: "",
+                  image: [],
+                  options: [],
+                };
 
-              tmp.push(question);
-              setQuestions(tmp);
-            }}
-          >
-            <img src="/svg/add.svg" className="w-[20px] inline" alt="" />
-            question
-          </button>
+                tmp.push(question);
+                setQuestions(tmp);
+              }}
+            >
+              <img src="/svg/add.svg" className="w-[20px] inline" alt="" />
+              question
+            </button>
+
+            {/* submit */}
+            <button
+              className="btn-blue !bg-white !text-black block"
+              type="submit"
+            >
+              submit
+            </button>
+          </div>
         </form>
       )}
     </main>

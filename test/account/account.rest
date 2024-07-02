@@ -2,7 +2,8 @@ POST http://localhost:3000/api/account
 Content-Type: application/json
 
 {
-    "name": "",
+    "name": "apalah",
+    "username": "apalah",
     "email": "andikaasda@gmail.com",
     "password": "adachikawai",
     "image": "/defaultpp.webp",

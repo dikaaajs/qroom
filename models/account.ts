@@ -27,10 +27,7 @@ const accountSchema = new Schema(
       type: String,
       required: true,
     },
-    teachersId: {
-      type: Array,
-    },
-    studentsId: {
+    classId: {
       type: Array,
     },
   },
