@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { OptionModel, QuestionModel } from "../quiz/model";
+import { OptionModel, QuestionModel } from "../../utils/model";
 
 interface Props {
   indexQuestion: number;

@@ -15,3 +15,12 @@ export interface OptionModel {
   image: string[];
   nav: boolean;
 }
+
+export interface UserModel {
+  name: string;
+  username: string;
+  email: string;
+  image: string;
+  role: string;
+  classId: string[];
+}

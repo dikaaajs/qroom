@@ -1,9 +1,13 @@
 "use client";
 
 import Message from "@/app/components/Message";
+import getData from "@/libs/getDataQuiz";
 import { useEffect, useState } from "react";
 
 export default function page({ params }: { params: { id: string } }) {
+  const [loading, setLoading] = useState(true);
+  const [quiz, setQuiz] = useState<any>(null);
+
   const [visibility, setVisibility] = useState(true);
   const [violation, setViolation] = useState(0);
   const [die, setDie] = useState(false);
@@ -13,6 +17,7 @@ export default function page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     setDeviceSize([window.innerHeight, window.innerWidth]);
+    getData({ code: params.id, setLoading, setQuiz });
   }, []);
 
   useEffect(() => {
@@ -56,25 +61,23 @@ export default function page({ params }: { params: { id: string } }) {
     }
   }, [violation, deviceSize]);
 
+  console.log(quiz);
+
   return (
     <div className="text-white">
       {/* popup */}
       {die && (
         <Message
-          headline="prit prit prit"
           pesan="anda melakukan pelanggaran. jadi anda diharuskan keluar dari quiz ini"
-          state={setDie}
-          value={false}
+          handleClickSuccess={setDie(false)}
         />
       )}
 
       {resized && (
         <Message
-          headline="resize atau split screen terdeteksi"
           pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa
           melanjutkan quiz !"
-          state={setResized}
-          value={false}
+          handleClickSuccess={() => setResized(false)}
         />
       )}
 
@@ -82,9 +85,7 @@ export default function page({ params }: { params: { id: string } }) {
         <Message
           pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa
           melanjutkan quiz !"
-          headline="anda beralih tab"
-          state={setVisibility}
-          value={true}
+          handleClickSuccess={() => setVisibility(true)}
         />
       )}
 

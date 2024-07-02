@@ -1,6 +1,9 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import Warning from "../components/Warning";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const code1 = useRef<any>(null);
@@ -11,6 +14,25 @@ export default function page() {
   const code6 = useRef<any>(null);
   const [index, setIndex] = useState(0);
   const [codeValue, setCodeValue] = useState(["", "", "", "", "", ""]);
+  const router = useRouter();
+
+  // warning
+  const [warning, setWarning] = useState(false);
+  const [msg, setmsg] = useState();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const tmp = codeValue.join("");
+    try {
+      const res = await axios.get(`/api/kuis?c=${tmp}`);
+      if (res.status == 200) {
+        router.push(`/quiz/${tmp}`);
+      }
+    } catch (error: any) {
+      setWarning(true);
+      setmsg(error.response.data.msg);
+    }
+  };
 
   const handleSwitchFocus = (nextIndex: number | null) => {
     const inputCode = [code1, code2, code3, code4, code5, code6];
@@ -50,6 +72,11 @@ export default function page() {
 
   return (
     <div className="text-white text-center px-[20px] py-[100px]">
+      {/* warning */}
+      {warning && msg && (
+        <Warning msg={msg} handleClick={() => setWarning(false)} />
+      )}
+
       <div id="enter-quiz">
         <h1 className="font-poppins-bold text-[2rem] uppercase">enter code</h1>
         <p>
@@ -57,7 +84,7 @@ export default function page() {
           the quiz maker
         </p>
 
-        <form className="max-w-sm mx-auto">
+        <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
           {/* input number */}
           <div className="flex mb-2 space-x-2 rtl:space-x-reverse justify-center py-[20px] font-poppins-medium !uppercase">
             <div>
@@ -181,23 +208,26 @@ export default function page() {
           </div>
 
           {/* submit */}
-          <button className="btn-blue mx-auto text-[1.5rem]">Join</button>
+          <button
+            className="btn-blue !bg-green mx-auto text-[1.5rem]"
+            type="submit"
+          >
+            Join
+          </button>
         </form>
       </div>
 
       <div id="make-quiz" className="w-full mt-[200px]">
-        <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <div className="max-w-sm p-6 bg-grey rounded-md">
+          <h5 className="mb-2 text-2xl font-medium tracking-tight font-poppins-medium text-gray-900 dark:text-white">
             Create Quiz
           </h5>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Create Your Own Quiz At No Cost!
-          </p>
+          <p className="pb-3">Create Your Own Quiz At No Cost!</p>
           <Link
             href="/quiz/create"
-            className="btn-blue !inline-flex !items-center"
+            className="btn-blue !bg-green !inline-flex !items-center"
           >
-            Start
+            create
             <svg
               className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
               aria-hidden="true"

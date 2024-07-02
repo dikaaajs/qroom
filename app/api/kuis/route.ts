@@ -5,10 +5,16 @@ import { NextResponse } from "next/server";
 connectMongoDB();
 
 export async function POST(req: any) {
-  const { headline, questions, description } = await req.json();
+  const { headline, questions, description, creatorId } = await req.json();
   try {
     const code = await generateRandomString(6);
-    const res = await Kuis.create({ headline, questions, description, code });
+    const res = await Kuis.create({
+      headline,
+      questions,
+      description,
+      code,
+      creatorId,
+    });
     return NextResponse.json({ message: "kuis registered." }, { status: 201 });
   } catch (error) {
     console.log(error);
@@ -21,9 +27,16 @@ export async function POST(req: any) {
 
 export async function GET(req: any) {
   const id = req.nextUrl.searchParams.get("v");
+  const code = req.nextUrl.searchParams.get("c");
   try {
     if (id) {
       const res = await Kuis.findById(id);
+      return NextResponse.json(res, { status: 200 });
+    } else if (code) {
+      const res = await Kuis.findOne({ code });
+      if (res === null) {
+        return NextResponse.json({ msg: "code invalid" }, { status: 500 });
+      }
       return NextResponse.json(res, { status: 200 });
     }
     const res = await Kuis.find();

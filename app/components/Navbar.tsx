@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between text-white py-[20px] px-[30px] items-center z-50">
       <Link href={"/"} className="font-montserrat text-[1.5rem]">
-        zaloid
+        Qroom
       </Link>
 
       {status === "authenticated" && session.user !== undefined && (

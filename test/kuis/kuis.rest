@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/api/kuis
+GET http://localhost:3000/api/kuis?c=tVNa4jaa
 
 ###
 DELETE http://localhost:3000/api/kuis?v=66222632c496dd66d2ad66e5

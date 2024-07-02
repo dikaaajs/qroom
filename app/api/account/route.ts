@@ -45,16 +45,16 @@ export async function GET(req: any) {
   const username = req.nextUrl.searchParams.get("n");
   try {
     if (id) {
-      const res = await Account.findById(id);
+      const res = await Account.findById(id).select("-password");
       return NextResponse.json(res, { status: 200 });
     } else if (email) {
-      const res = await Account.findOne({ email });
+      const res = await Account.findOne({ email }).select("-password");
       return NextResponse.json(res, { status: 200 });
     } else if (username) {
-      const res = await Account.findOne({ username });
+      const res = await Account.findOne({ username }).select("-password");
       return NextResponse.json(res, { status: 200 });
     } else {
-      const res = await Account.find();
+      const res = await Account.find().select("-password");
       return NextResponse.json(res, { status: 200 });
     }
   } catch (error) {

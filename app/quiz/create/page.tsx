@@ -4,13 +4,18 @@ import Loading from "@/app/components/Loading";
 import getData from "@/libs/getDataUser";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { QuestionModel, QuizModel } from "../model";
+import { QuestionModel, QuizModel } from "../../../utils/model";
 import Question from "@/app/components/Question";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Success from "@/app/components/Success";
 import Message from "@/app/components/Message";
 
 export default function page() {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState();
+  const router = useRouter();
+
+  const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
   const [quiz, setQuiz] = useState<QuizModel>({
@@ -18,14 +23,29 @@ export default function page() {
     description: " ",
     questions: questions,
   });
-  const [popupSubmit, setPopupSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("object");
-    setPopupSubmit(!popupSubmit);
+    console.log({ quiz });
+    setLoading(true);
+    const tmp = { ...quiz, creatorId: user._id };
+
+    try {
+      const res = await axios.post("/api/kuis", tmp);
+      if (res.status == 201) {
+        setSuccess(true);
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
 
+  const handleSuccess = () => {
+    router.push(`/profile/${user.username}`);
+  };
+
+  // effect
   useEffect(() => {
     if (status === "authenticated" && session.user) {
       getData({ name: `${session.user.name}`, setUser, setLoading });
@@ -42,9 +62,12 @@ export default function page() {
 
   if (status === "unauthenticated") {
     return (
-      <div>
-        <p>login terlebih dahulu</p>
-      </div>
+      <main className="min-h-screen">
+        <Message
+          pesan="you must log in first"
+          handleClickSuccess={() => router.push("/auth/login")}
+        />
+      </main>
     );
   }
 
@@ -52,12 +75,11 @@ export default function page() {
     <main className="min-h-screen">
       {loading || (status === "loading" && <Loading />)}
 
-      {popupSubmit && (
-        <Message
-          headline="are you sure"
-          pesan=""
-          state={setPopupSubmit}
-          value={popupSubmit}
+      {success && (
+        <Success
+          headline="apalah"
+          pesan="successfully created the quiz"
+          handleClickSuccess={handleSuccess}
         />
       )}
 
@@ -136,7 +158,7 @@ export default function page() {
           </div>
 
           {/* button */}
-          <div className="flex gap-5 justify-end">
+          <div className="flex gap-5 justify-end my-[50px]">
             {/* add question */}
             <button
               className="btn-blue block"
