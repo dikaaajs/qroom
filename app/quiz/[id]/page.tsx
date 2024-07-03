@@ -1,95 +1,102 @@
 "use client";
 
-import Message from "@/app/components/Message";
+import Loading from "@/app/components/Loading";
 import getData from "@/libs/getDataQuiz";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function page({ params }: { params: { id: string } }) {
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState<any>(null);
-
-  const [visibility, setVisibility] = useState(true);
-  const [violation, setViolation] = useState(0);
-  const [die, setDie] = useState(false);
-
-  const [deviceSize, setDeviceSize] = useState([0, 0]);
-  const [resized, setResized] = useState(false);
+  const [readed, setReaded] = useState(false);
+  const router = useRouter();
+  const url = usePathname();
 
   useEffect(() => {
-    setDeviceSize([window.innerHeight, window.innerWidth]);
     getData({ code: params.id, setLoading, setQuiz });
   }, []);
 
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        if (violation >= 1) {
-          setDie(true);
-        } else {
-          setViolation(violation + 1);
-          setVisibility(false);
-        }
-      } else {
-        console.log("Tab is active again");
-      }
-    };
-
-    if (deviceSize[0] !== 0) {
-      const handleResizeChange = () => {
-        if (
-          window.innerHeight !== deviceSize[0] ||
-          window.innerWidth !== deviceSize[1]
-        ) {
-          if (violation >= 1) {
-            setDie(true);
-          } else {
-            setViolation(violation + 1);
-            setResized(true);
-          }
-        }
-      };
-
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-      window.addEventListener("resize", handleResizeChange);
-      return () => {
-        document.removeEventListener("resize", handleResizeChange);
-        document.removeEventListener(
-          "visibilitychange",
-          handleVisibilityChange
-        );
-      };
-    }
-  }, [violation, deviceSize]);
-
   console.log(quiz);
+  const handleStart = () => {
+    if (!readed) {
+      return;
+    }
+
+    router.push(`${url}/play`);
+  };
+
+  if (loading || status === "loading") {
+    return (
+      <main className="min-h-screen">
+        <Loading />;
+      </main>
+    );
+  }
 
   return (
-    <div className="text-white">
-      {/* popup */}
-      {die && (
-        <Message
-          pesan="anda melakukan pelanggaran. jadi anda diharuskan keluar dari quiz ini"
-          handleClickSuccess={setDie(false)}
+    <main className="min-h-screen">
+      <div className="w-[90%] h-[150px] rounded-md overflow-hidden mx-auto my-[50px] relative px-5 py-5 bg-white bg-opacity-50">
+        <img
+          src="/image/black-lines.jpg"
+          className="absolute top-0 left-0 w-full -z-50 opacity-50"
+          alt=""
         />
-      )}
+        <h3 className="font-poppins-bold text-[1.5rem] text-grey z-50">
+          read this first
+        </h3>
+        <p className="!text-black">
+          Before taking the quiz you are required to read the rules first
+        </p>
+        <button className="btn bg-green text-white flex w-fit items-center gap-1 mt-[5px]">
+          <img className="inline w-5" src="/svg/book.svg" alt="" />
+          read
+        </button>
+      </div>
 
-      {resized && (
-        <Message
-          pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa
-          melanjutkan quiz !"
-          handleClickSuccess={() => setResized(false)}
-        />
-      )}
+      <div className="flex justify-center">
+        <div className="text-center border-r-[1px] w-1/2 border-white px-5">
+          <h1 className="font-poppins-bold text-white text-[2rem]">
+            {quiz.headline}
+          </h1>
+          <p>{quiz.description}</p>
+        </div>
 
-      {!visibility && (
-        <Message
-          pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa
-          melanjutkan quiz !"
-          handleClickSuccess={() => setVisibility(true)}
-        />
-      )}
+        <div className="px-5 border-l-[1px] w-1/2 border-white text-center">
+          <p>{quiz.questions.length} question</p>
+          <p>120 minutes</p>
+          <p>start at 12:00</p>
+        </div>
+      </div>
 
-      <h1>id: {params.id}</h1>
-    </div>
+      <div className="py-[50px]">
+        <button
+          className={`btn bg-green text-white mx-auto block ${
+            readed ? "" : "opacity-45 cursor-not-allowed"
+          }`}
+          onClick={handleStart}
+        >
+          start
+        </button>
+
+        <div className="flex items-center justify-center gap-1 py-3">
+          <input
+            id="link-checkbox"
+            type="checkbox"
+            onClick={(e) => {
+              setReaded(!readed);
+            }}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label
+            htmlFor="link-checkbox"
+            className="text-[.9rem] font-rethink font-normal text-gray-700 dark:text-gray-400"
+          >
+            I have read the rules above
+          </label>
+        </div>
+      </div>
+    </main>
   );
 }

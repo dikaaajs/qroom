@@ -5,7 +5,15 @@ import { NextResponse } from "next/server";
 connectMongoDB();
 
 export async function POST(req: any) {
-  const { headline, questions, description, creatorId } = await req.json();
+  const {
+    headline,
+    questions,
+    description,
+    creatorId,
+    duration,
+    timeStart,
+    timeEnd,
+  } = await req.json();
   try {
     const code = await generateRandomString(6);
     const res = await Kuis.create({
@@ -14,6 +22,9 @@ export async function POST(req: any) {
       description,
       code,
       creatorId,
+      duration,
+      timeStart,
+      timeEnd,
     });
     return NextResponse.json({ message: "kuis registered." }, { status: 201 });
   } catch (error) {

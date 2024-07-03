@@ -1,6 +1,10 @@
 export interface QuizModel {
   headline: string;
   description: string;
+  timeStart: string;
+  timeEnd: string;
+  duration: number;
+  code: string;
   questions: QuestionModel[];
 }
 

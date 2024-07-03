@@ -32,6 +32,15 @@ const kuisSchema = new Schema(
     description: {
       type: String,
     },
+    timeStart: {
+      type: String,
+    },
+    timeEnd: {
+      type: String,
+    },
+    duration: {
+      type: Number,
+    },
     code: {
       type: String,
       required: true,
