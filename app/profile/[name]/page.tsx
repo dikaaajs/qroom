@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserNotFound from "@/app/components/UserNotFound";
 import CardJoin from "@/app/components/CardJoin";
-import CardQuiz from "@/app/components/CardQuiz";
+import CardClass from "@/app/components/CardClass";
 
 type User = {
   _id: string;
@@ -70,7 +70,7 @@ export default function page({ params }: { params: { name: string } }) {
             Recent Quiz:
           </p>
 
-          <CardQuiz status={status} />
+          <CardClass status={status} />
           
           <CardJoin status={status} role={user.role} username={user.username} sessionUsername={session!.user!.name!} />
           
