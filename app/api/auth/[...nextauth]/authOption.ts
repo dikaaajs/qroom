@@ -2,6 +2,7 @@ import connectMongoDB from "@/libs/database/mongodb";
 import Account from "@/models/account";
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -9,6 +10,10 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    }),
     Credentials({
       name: "credentials",
       credentials: {},
