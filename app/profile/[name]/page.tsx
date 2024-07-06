@@ -72,7 +72,7 @@ export default function page({ params }: { params: { name: string } }) {
 
           <CardClass status={status} />
           
-          <CardJoin status={status} role={user.role} username={user.username} sessionUsername={session!.user!.name!} />
+          <CardJoin role={user.role} username={user.username} sessionUsername={session!.user!.name!} />
           
         </div>
       )}
