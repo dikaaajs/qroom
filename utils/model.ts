@@ -17,7 +17,6 @@ export interface QuestionModel {
 export interface OptionModel {
   paragraf: string;
   image: string[];
-  nav: boolean;
 }
 
 export interface UserModel {

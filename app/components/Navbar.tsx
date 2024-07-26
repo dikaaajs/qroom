@@ -14,7 +14,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between text-white py-[20px] px-[30px] items-center z-50">
+    <nav className="flex justify-between text-white py-[20px] px-[30px] items-center z-auto">
       <Link href={"/"} className="font-montserrat text-[1.5rem]">
         Qroom
       </Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
       </ul>
 
       {/* navigation sm */}
-      <ul className="md:hidden fixed bottom-0 left-0 px-[30px] py-[10px] bg-black border-white border-t-[1px] font-robotomono flex justify-between w-full items-end text-[.6rem]">
+      <ul className="z-50 md:hidden fixed bottom-0 left-0 px-[30px] py-[10px] bg-black border-white border-t-[1px] font-robotomono flex justify-between w-full items-end text-[.6rem]">
         <li>
           <Link href={"/quiz"}>
             <img src="/svg/play.svg" className="w-[30px]" alt="" />

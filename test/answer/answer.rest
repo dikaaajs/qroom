@@ -1,0 +1,9 @@
+GET http://localhost:3000/api/answer?q=66a0ddbe82565a6871a30b24
+
+###
+PATCH http://localhost:3000/api/answer?u=66a0dfdc82565a6871a30ba5&q=66a0ddbe82565a6871a30b24
+Content-Type: application/json
+
+{
+    "answer": [0,0,0]
+}

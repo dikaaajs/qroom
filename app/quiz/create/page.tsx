@@ -10,6 +10,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Success from "@/app/components/Success";
 import Message from "@/app/components/Message";
+import CropImg from "@/app/components/CropImg";
+import { handleChangeImg } from "@/libs/handleChangeImg";
 
 export default function page() {
   const { data: session, status } = useSession();
@@ -28,15 +30,37 @@ export default function page() {
     questions: questions,
   });
   const [success, setSuccess] = useState(false);
+  const [answer, setAnswer] = useState<any>([]);
+
+  // start image state required
+  const [imgWillBeCrop, setImgWillBeCrop] = useState<any>(null);
+  const [cropDialog, setCropDialog] = useState<boolean>(false);
+  const [handleCroppedImg, setHandleCroppedImg] = useState<
+    (croppedImage: any) => void
+  >((croppedImage) => {});
+  // end
+
+  const [imgBanner, setImgBanner] = useState<{ file: any; url: string }>({
+    file: null,
+    url: "/image/laptop.png",
+  });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log({ quiz });
-    setLoading(true);
-    const tmp = { ...quiz, creatorId: user._id };
+    const tmp = {
+      ...quiz,
+      creatorId: user._id,
+      imgBanner: "/image/laptop.png",
+    };
 
     try {
       const res = await axios.post("/api/kuis", tmp);
+      await axios.post("/api/answer", {
+        answer,
+        quizRef: res.data._id,
+        status: "creator",
+        userRef: user._id,
+      });
       if (res.status == 201) {
         setSuccess(true);
       }
@@ -45,17 +69,13 @@ export default function page() {
     }
   };
 
-  const handleSuccess = () => {
-    router.push(`/profile/${user.username}`);
-  };
-
-  // effect
+  // effect auth
   useEffect(() => {
     if (status === "authenticated" && session.user) {
       getData({ name: `${session.user.name}`, setUser, setLoading });
     }
   }, [status]);
-
+  // effect quiz
   useEffect(() => {
     const tmp: QuizModel = {
       ...quiz,
@@ -77,18 +97,62 @@ export default function page() {
 
   return (
     <main className="min-h-screen">
+      {/* loading */}
       {loading || (status === "loading" && <Loading />)}
 
+      {/* success */}
       {success && (
         <Success
           headline="apalah"
           pesan="successfully created the quiz"
-          handleClickSuccess={handleSuccess}
+          handleClickSuccess={() => router.push(`/profile/${user.username}`)}
+        />
+      )}
+
+      {/* crop image */}
+      {cropDialog && (
+        <CropImg
+          imgFile={imgWillBeCrop}
+          cropedDialog={setCropDialog}
+          handleCroppedImg={handleCroppedImg}
         />
       )}
 
       {status === "authenticated" && (
         <form className="mx-4" onSubmit={handleSubmit}>
+          {/* banner */}
+          <>
+            <div className="w-full h-[150px] rounded-md my-[30px] overflow-hidden">
+              <img src={imgBanner.url} className="w-full" />
+            </div>
+            <label
+              htmlFor="img-banner"
+              className="btn bg-white mb-[20px] flex items-center justify-center gap-2"
+            >
+              <img src="/svg/add-image.svg" className="w-5" /> banner
+            </label>
+            <input
+              type="file"
+              id="img-banner"
+              className="hidden"
+              onChange={(e: any) => {
+                if (e.target.files[0]) {
+                  var reader = new FileReader();
+
+                  reader.onload = function (e: any) {
+                    setImgWillBeCrop(e.target.result);
+                  };
+
+                  reader.readAsDataURL(e.target.files[0]);
+                }
+                setCropDialog(true);
+                setHandleCroppedImg((croppedImage: any) => {
+                  setImgBanner(croppedImage);
+                });
+              }}
+            />
+          </>
+
           {/* top */}
           <header className="card py-[50px] px-[20px]">
             {/* header */}
@@ -243,13 +307,12 @@ export default function page() {
           {/* questions */}
           <div className="flex flex-col gap-[30px] mt-[50px]">
             {/* card */}
-            {questions.map((e, idx) => {
+            {questions.map((e, idx: number) => {
               return (
                 <Question
                   indexQuestion={idx}
-                  setQuestions={setQuestions}
-                  questions={questions}
-                  key={idx}
+                  questionsState={{ setQuestions: setQuestions, questions }}
+                  answerState={{ setAnswer, answer }}
                 />
               );
             })}
@@ -262,16 +325,19 @@ export default function page() {
               className="btn-blue block"
               type="button"
               onClick={() => {
-                const tmp = [...questions];
+                const tmpQuestions = [...questions];
+                const tmpAnswer = [...answer];
 
                 const question: QuestionModel = {
                   paragraf: "",
                   image: [],
                   options: [],
                 };
+                tmpAnswer.push(null);
 
-                tmp.push(question);
-                setQuestions(tmp);
+                tmpQuestions.push(question);
+                setQuestions(tmpQuestions);
+                setAnswer(tmpAnswer);
               }}
             >
               <img src="/svg/add.svg" className="w-[20px] inline" alt="" />

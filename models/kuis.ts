@@ -32,6 +32,9 @@ const kuisSchema = new Schema(
     description: {
       type: String,
     },
+    imgBannerUrl: {
+      type: String,
+    },
     timeStart: {
       type: String,
     },

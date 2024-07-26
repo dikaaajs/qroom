@@ -1,6 +1,8 @@
+import { storage } from "@/libs/database/firebase";
 import connectMongoDB from "@/libs/database/mongodb";
 import generateRandomString from "@/libs/generateRandomStr";
 import Kuis from "@/models/kuis";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { NextResponse } from "next/server";
 connectMongoDB();
 
@@ -13,9 +15,15 @@ export async function POST(req: any) {
     duration,
     timeStart,
     timeEnd,
+    imgBanner,
   } = await req.json();
   try {
     const code = await generateRandomString(6);
+    // const uploadImgBanner = await uploadBytes(
+    //   ref(storage, `images/${code}/banner`),
+    //   imgBanner
+    // );
+    // const imgBannerUrl = await getDownloadURL(uploadImgBanner.ref);
     const res = await Kuis.create({
       headline,
       questions,
@@ -25,8 +33,9 @@ export async function POST(req: any) {
       duration,
       timeStart,
       timeEnd,
+      imgBannerUrl: "/image/laptop.png",
     });
-    return NextResponse.json({ message: "kuis registered." }, { status: 201 });
+    return NextResponse.json(res, { status: 201 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

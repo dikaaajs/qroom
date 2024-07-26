@@ -15,7 +15,7 @@ export default function page({ params }: { params: { id: string } }) {
   const url = usePathname();
 
   useEffect(() => {
-    getData({ code: params.id, setLoading, setQuiz });
+    getData({ code: params.id, setLoading, setQuiz, setAnswer: null });
   }, []);
 
   console.log(quiz);
