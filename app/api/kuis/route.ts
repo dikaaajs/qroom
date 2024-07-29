@@ -47,6 +47,7 @@ export async function POST(req: any) {
 
 export async function GET(req: any) {
   const id = req.nextUrl.searchParams.get("v");
+  const creatorId = req.nextUrl.searchParams.get("i");
   const code = req.nextUrl.searchParams.get("c");
   try {
     if (id) {
@@ -54,6 +55,12 @@ export async function GET(req: any) {
       return NextResponse.json(res, { status: 200 });
     } else if (code) {
       const res = await Kuis.findOne({ code });
+      if (res === null) {
+        return NextResponse.json({ msg: "code invalid" }, { status: 500 });
+      }
+      return NextResponse.json(res, { status: 200 });
+    } else if (creatorId) {
+      const res = await Kuis.find({ creatorId });
       if (res === null) {
         return NextResponse.json({ msg: "code invalid" }, { status: 500 });
       }

@@ -3,6 +3,7 @@
 import Loading from "@/app/components/Loading";
 import getData from "@/libs/getDataQuiz";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -71,14 +72,23 @@ export default function page({ params }: { params: { id: string } }) {
       </div>
 
       <div className="py-[50px]">
-        <button
-          className={`btn bg-green text-white mx-auto block ${
-            readed ? "" : "opacity-45 cursor-not-allowed"
-          }`}
-          onClick={handleStart}
-        >
-          start
-        </button>
+        <div className="flex gap-[20px] justify-center">
+          <button
+            className={`btn bg-green text-white block ${
+              readed ? "" : "opacity-45 cursor-not-allowed"
+            }`}
+            onClick={handleStart}
+          >
+            start
+          </button>
+
+          <Link
+            href={`/quiz/${params.id}/result`}
+            className="btn bg-white text-black"
+          >
+            result
+          </Link>
+        </div>
 
         <div className="flex items-center justify-center gap-1 py-3">
           <input

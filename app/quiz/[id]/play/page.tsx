@@ -15,11 +15,14 @@ export default function Page({ params }: { params: { id: string } }) {
   const [answer, setAnswer] = useState<any>([]);
   const [visibility, setVisibility] = useState(true);
   const [violation, setViolation] = useState(0);
-  const [die, setDie] = useState(false);
   const [deviceSize, setDeviceSize] = useState([0, 0]);
   const [resized, setResized] = useState(false);
   const [message, setMessage] = useState<any>(null);
+
+  const [die, setDie] = useState(false);
   const [finished, setFinished] = useState(false);
+
+  const [kick, setKick] = useState(false);
 
   const router = useRouter();
 
@@ -42,8 +45,13 @@ export default function Page({ params }: { params: { id: string } }) {
         `/api/answer?q=${resQuiz.data._id}&u=${resUser.data._id}`
       );
 
-      if (getAnswer.data.status === "finished") {
-        setFinished(true);
+      console.log(getAnswer);
+      if (getAnswer.data !== null) {
+        if (getAnswer.data.status === "finished") {
+          setFinished(true);
+        } else if (getAnswer.data.status === "kick") {
+          setKick(true);
+        }
       }
 
       if (!getAnswer.data) {
@@ -94,12 +102,7 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        if (violation >= 1) {
-          setDie(true);
-        } else {
-          setViolation((prev) => prev + 1);
-          setVisibility(false);
-        }
+        setKick(true);
       }
     };
 
@@ -108,12 +111,7 @@ export default function Page({ params }: { params: { id: string } }) {
         window.innerHeight !== deviceSize[0] ||
         window.innerWidth !== deviceSize[1]
       ) {
-        if (violation >= 1) {
-          setDie(true);
-        } else {
-          setViolation((prev) => prev + 1);
-          setResized(true);
-        }
+        setKick(true);
       }
     };
 
@@ -128,6 +126,20 @@ export default function Page({ params }: { params: { id: string } }) {
     };
   }, [violation, deviceSize]);
 
+  const updateDie = async () => {
+    await axios.patch(`/api/answer?q=${quiz._id}&u=${user._id}`, {
+      answer,
+      status: "kick",
+    });
+  };
+
+  useEffect(() => {
+    if (die) {
+      updateDie();
+      router.push("/");
+    }
+  }, [die]);
+
   if (loading) {
     return <Loading />;
   }
@@ -135,24 +147,10 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <div className="text-white min-h-screen mx-4">
       {/* popup */}
-      {die && (
+      {kick && (
         <Message
-          pesan="anda melakukan pelanggaran. jadi anda diharuskan keluar dari quiz ini"
-          handleClickSuccess={() => setDie(false)}
-        />
-      )}
-
-      {resized && (
-        <Message
-          pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa melanjutkan quiz !"
-          handleClickSuccess={() => setResized(false)}
-        />
-      )}
-
-      {!visibility && (
-        <Message
-          pesan="ini hanya peringatan, jika kamu melakukan sekali lagi. kamu tidak bisa melanjutkan quiz !"
-          handleClickSuccess={() => setVisibility(true)}
+          pesan="you committed a violation. so you are required to leave this quiz"
+          handleClickSuccess={() => setDie(true)}
         />
       )}
 
