@@ -19,6 +19,13 @@ export default function Navbar() {
         Qroom
       </Link>
 
+      {/* navigation md */}
+      <ul className="md:flex hidden gap-[25px] md:gap-[70px] font-robotomono text-[.8rem]">
+        <li>home</li>
+        <li>about</li>
+        <li>help</li>
+      </ul>
+
       {status === "authenticated" && session.user !== undefined && (
         <div className="relative">
           <img
@@ -94,13 +101,6 @@ export default function Navbar() {
           </Link>
         </div>
       )}
-
-      {/* navigation md */}
-      <ul className="md:flex hidden gap-[25px] font-robotomono">
-        <li>home</li>
-        <li>about</li>
-        <li>help</li>
-      </ul>
 
       {/* navigation sm */}
       <ul className="z-50 md:hidden fixed bottom-0 left-0 px-[30px] py-[10px] bg-black border-white border-t-[1px] font-robotomono flex justify-between w-full items-end text-[.6rem]">

@@ -6,7 +6,7 @@ export default function Home() {
       <div className="py-[100px] text-center">
         <h3 className="text-[2.3rem] font-poppins-bold">Qroom ?</h3>
         <p>
-          With Zaloin, students cannot open new tabs, split screen, etc. when
+          With Qroom, students cannot open new tabs, split screen, etc. when
           taking quizzes
         </p>
         <div className="flex gap-[15px] my-[20px] justify-center">
@@ -20,12 +20,12 @@ export default function Home() {
       </div>
 
       <div>
-        <div className="flex flex-col md:flex-row text-center my-[50px]">
+        <div className="flex flex-col text-center my-[50px]">
           <h3 className="text-[2.3rem] font-poppins-bold">what's in Qroom ?</h3>
           <p>Everything you need to create and take quizzes</p>
         </div>
 
-        <div className="py-[20px] grid grid-cols-1 gap-5">
+        <div className="py-[20px] grid grid-cols-1 md:grid-cols-2 gap-5 md:px-[200px]">
           <div className="bg-grey py-5 px-3 rounded-md">
             <img src="/svg/exam.svg" className="mx-auto h-[100px]" alt="" />
             <h5 className="text-medium font-poppins-medium capitalize text-center pt-[20px]">
