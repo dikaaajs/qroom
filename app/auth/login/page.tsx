@@ -70,9 +70,9 @@ export default function page() {
 
       <div className="py-[60px]">
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-          don't have an account ?{" "}
-          <Link href={"/auth/register"} className="text-blue-500">
-            create account
+          Don't have an account?{"    "}
+          <Link href={"/auth/register"} className="text-blue-500 bg-white rounded-lg p-2">
+            Create account
           </Link>
         </p>
       </div>
