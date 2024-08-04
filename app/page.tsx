@@ -6,12 +6,7 @@ export default function Home() {
       <div className="py-[100px] text-center">
         <h3 className="text-[2.3rem] font-poppins-bold">Welcome!</h3>
         <p>
-<<<<<<< HEAD
           Create or join quizzes seamlessly with Qroom!
-=======
-          With Qroom, students cannot open new tabs, split screen, etc. when
-          taking quizzes
->>>>>>> 4a9b0e76f82016209e838bf0706daacdd17500b7
         </p>
         <div className="flex gap-[15px] my-[20px] justify-center">
           <Link href={"/quiz"} className="btn text-white bg-grey">
@@ -24,15 +19,9 @@ export default function Home() {
       </div>
 
       <div>
-<<<<<<< HEAD
         <div className="flex flex-col md:flex-row text-center my-[50px]">
           <h3 className="text-[2.3rem] font-poppins-bold">Why use Qroom?</h3>
           <p>Everything you need to create and take quizzes is here. Take a look at some of the features!</p>
-=======
-        <div className="flex flex-col text-center my-[50px]">
-          <h3 className="text-[2.3rem] font-poppins-bold">what's in Qroom ?</h3>
-          <p>Everything you need to create and take quizzes</p>
->>>>>>> 4a9b0e76f82016209e838bf0706daacdd17500b7
         </div>
 
         <div className="py-[20px] grid grid-cols-1 md:grid-cols-2 gap-5 md:px-[200px]">
