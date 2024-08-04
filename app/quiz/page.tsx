@@ -218,7 +218,7 @@ export default function page() {
       </div>
 
       <div id="make-quiz" className="w-full mt-[200px]">
-        <div className="max-w-sm p-6 bg-grey rounded-md">
+        <div className="max-w-sm p-6 bg-grey rounded-md mx-auto">
           <h5 className="mb-2 text-2xl font-medium tracking-tight font-poppins-medium text-gray-900 dark:text-white">
             Create Quiz
           </h5>

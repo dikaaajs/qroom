@@ -29,7 +29,7 @@ export default function page() {
 
   return (
     <main className="text-white">
-      <div className="text-center mt-[80px] py-[50px] bg-white text-black px-[20px] mx-[20px] rounded-[5px]">
+      <div className="text-center mt-[80px] py-[50px] bg-grey text-white px-[20px] md:px-[50px] mx-auto w-[90%] md:w-1/3 rounded-[5px]">
         <h1 className="font-poppins-bold text-[1.5rem] pb-[40px]">sign in</h1>
 
         <form className="flex flex-col gap-[20px]" onSubmit={handleSubmit}>
@@ -62,7 +62,7 @@ export default function page() {
           </div>
 
           {/* submit */}
-          <button type="submit" className="btn-blue ml-auto mt-[20px]">
+          <button type="submit" className="btn bg-green ml-auto mt-[20px]">
             submit
           </button>
         </form>
