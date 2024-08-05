@@ -5,9 +5,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserNotFound from "@/app/components/UserNotFound";
-import CardJoin from "@/app/components/CardJoin";
-import CardClass from "@/app/components/CardClass";
 import axios from "axios";
+import CardJoin from "@/app/components/CardJoin";
 
 type User = {
   _id: string;

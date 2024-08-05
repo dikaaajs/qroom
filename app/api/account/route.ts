@@ -65,6 +65,34 @@ export async function GET(req: any) {
   }
 }
 
+export async function PATCH(req: any) {
+  const id = req.nextUrl.searchParams.get("v");
+  const { name, username, email, password, image, role, classId } =
+    await req.json();
+
+  try {
+    const account = await Account.findById(id);
+    if (name !== undefined) account.name = name;
+    if (username !== undefined) account.username = username;
+    if (email !== undefined) account.email = email;
+    if (password !== undefined) account.password = password;
+    if (image !== undefined) account.image = image;
+    if (role !== undefined) account.role = role;
+    if (classId !== undefined) account.classId = classId;
+
+    await account.save();
+    return NextResponse.json(
+      { msg: "berhasil update data Account" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { msg: "gagal update data Account", err: error },
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(req: any) {
   const id = req.nextUrl.searchParams.get("v");
 
