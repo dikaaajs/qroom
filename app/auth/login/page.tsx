@@ -36,7 +36,7 @@ export default function page() {
           {/* name */}
           <div className="flex flex-col text-left">
             <label htmlFor="name" className="font-rethink text-[.8rem]">
-              name :
+              username :
             </label>
             <input
               type="text"

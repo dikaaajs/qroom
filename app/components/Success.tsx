@@ -16,7 +16,7 @@ export default function Success(props: {
         <p className=" text-[.8rem]">{pesan}</p>
 
         <button
-          className="bg-[#1db954] py-[5px] px-[15px] rounded-[5px] font-rethink ml-auto mr-[20px] mb-[20px] block text-white"
+          className="bg-[#1db954] py-[5px] px-[15px] rounded-[5px] font-rethink ml-auto mr-[20px] block text-white mt-[20px]"
           onClick={() => handleClickSuccess()}
         >
           oke
