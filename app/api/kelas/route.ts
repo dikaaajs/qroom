@@ -1,11 +1,11 @@
-import Class from "@/models/class";
+import Kelas from "@/models/kelas";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongoose";
 
 export async function GET(req: any) {
   const classId = req.nextUrl.searchParams.get("c") as string;
   try {
-    const res = await Class.findById(classId);
+    const res = await Kelas.findById(classId);
     return NextResponse.json(res, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -25,12 +25,13 @@ export async function POST(req: any) {
     );
   }
   try {
-    const res = await Class.create({
+    const res = await Kelas.create({
       label,
       teachersRef,
       studentsRef,
       quizRef,
     });
+    console.log(res);
     return NextResponse.json(res, { status: 201 });
   } catch (error) {
     return NextResponse.json(

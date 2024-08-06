@@ -27,9 +27,7 @@ const accountSchema = new Schema(
       type: String,
       required: true,
     },
-    classId: {
-      type: Array,
-    },
+    classId: [{ type: Schema.Types.ObjectId, ref: "Kelas" }],
   },
   { timestamps: true }
 );

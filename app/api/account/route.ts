@@ -51,13 +51,16 @@ export async function GET(req: any) {
       const res = await Account.findOne({ email }).select("-password");
       return NextResponse.json(res, { status: 200 });
     } else if (username) {
-      const res = await Account.findOne({ username }).select("-password");
+      const res = await Account.findOne({ username })
+        .select("-password")
+        .populate("classId");
       return NextResponse.json(res, { status: 200 });
     } else {
       const res = await Account.find().select("-password");
       return NextResponse.json(res, { status: 200 });
     }
-  } catch (error) {
+  } catch (error: any) {
+    console.log(error.message);
     return NextResponse.json(
       { msg: "gagal mengambil data account", err: error },
       { status: 500 }

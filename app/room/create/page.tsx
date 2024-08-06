@@ -1,5 +1,6 @@
 "use client";
 import Success from "@/app/components/Success";
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -13,6 +14,12 @@ export default function page() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const resUser = await axios.get(`/api/account?n=${session?.user?.name}`);
+    const res = await axios.post("/api/kelas", {
+      label,
+      teachersRef: [resUser.data._id],
+    });
+    console.log(res);
     setSuccess(true);
   };
 

@@ -1,1 +1,10 @@
-GET http://localhost:3000/api/class?c=66afaa00274699aefbdc3daa
+GET http://localhost:3000/api/kelas?c=66afaa00274699aefbdc3daa
+
+###
+POST http://localhost:3000/api/account
+Content-Type: application/json
+
+{
+    "label" : "kelas jawa",
+    "teachersRef": ["66ae19b12c485b82d75f26f4"]
+}
