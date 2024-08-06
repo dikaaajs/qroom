@@ -32,10 +32,10 @@ export default function page({ params }: { params: { name: string } }) {
 
   const getData = async () => {
     const res = await axios.get(`/api/account?n=${params.name}`);
-    setUser(res.data.res);
+    setUser(res.data);
     setKelas(res.data.kelas);
 
-    const resQuiz = await axios.get(`/api/kuis?i=${res.data.res._id}`);
+    const resQuiz = await axios.get(`/api/kuis?i=${res.data._id}`);
     setQuiz(resQuiz.data);
 
     setLoading(false);

@@ -1,7 +1,6 @@
 "use client";
 
 import Loading from "@/app/components/Loading";
-import getData from "@/libs/getDataUser";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { QuestionModel, QuizModel } from "../../../utils/model";
@@ -52,6 +51,7 @@ export default function page() {
       creatorId: user._id,
       imgBanner: "/image/laptop.png",
     };
+    console.log(tmp);
 
     try {
       const res = await axios.post("/api/kuis", tmp);
@@ -69,10 +69,16 @@ export default function page() {
     }
   };
 
+  const getData = async () => {
+    const res = await axios.get(`/api/account?n=${session?.user?.name}`);
+    setUser(res.data);
+    setLoading(false);
+  };
+  console.log(user);
   // effect auth
   useEffect(() => {
     if (status === "authenticated" && session.user) {
-      getData({ name: `${session.user.name}`, setUser, setLoading });
+      getData();
     }
   }, [status]);
   // effect quiz
