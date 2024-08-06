@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { check } from "@/utils/registerDataChecker";
 import Account from "@/models/account";
+import Kelas from "@/models/kelas";
 connectMongoDB();
 
 export async function POST(req: NextRequest) {
@@ -51,10 +52,9 @@ export async function GET(req: any) {
       const res = await Account.findOne({ email }).select("-password");
       return NextResponse.json(res, { status: 200 });
     } else if (username) {
-      const res = await Account.findOne({ username })
-        .select("-password")
-        .populate("classId");
-      return NextResponse.json(res, { status: 200 });
+      let res = await Account.findOne({ username }).select("-password");
+      const kelas = await Kelas.find({ _id: { $in: res.classId } });
+      return NextResponse.json({ res, kelas }, { status: 200 });
     } else {
       const res = await Account.find().select("-password");
       return NextResponse.json(res, { status: 200 });

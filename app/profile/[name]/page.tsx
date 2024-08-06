@@ -28,12 +28,14 @@ export default function page({ params }: { params: { name: string } }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState<any>(null);
+  const [kelas, setKelas] = useState<any>(null);
 
   const getData = async () => {
     const res = await axios.get(`/api/account?n=${params.name}`);
-    setUser(res.data);
+    setUser(res.data.res);
+    setKelas(res.data.kelas);
 
-    const resQuiz = await axios.get(`/api/kuis?i=${res.data._id}`);
+    const resQuiz = await axios.get(`/api/kuis?i=${res.data.res._id}`);
     setQuiz(resQuiz.data);
 
     setLoading(false);
@@ -42,6 +44,7 @@ export default function page({ params }: { params: { name: string } }) {
   useEffect(() => {
     getData();
   }, []);
+  console.log(kelas);
 
   if (loading || status === "loading" || quiz === null) {
     return (
@@ -115,23 +118,27 @@ export default function page({ params }: { params: { name: string } }) {
 
               {/* card quizzroom */}
               <div className="flex flex-col gap-[20px] py-[30px]">
-                <Link
-                  href={`/room/coderoom`}
-                  className="flex flex-col gap-2 justify-start relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
-                >
-                  {/* <img
-                  src="/image/laptop.png"
-                  className="absolute w-full top-0 left-0 -z-10"
-                /> */}
-
-                  <span className="font-poppins-bold text-[2rem]">
-                    XI mipa 1
-                  </span>
-                  <span className="font-poppins-medium text-medium text-[.8rem]">
-                    100 students
-                  </span>
-                  <p>asdio76asbsda</p>
-                </Link>
+                {kelas[0] === undefined && (
+                  <div className="flex flex-col gap-2 justify-center items-center relative p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto">
+                    <p>tidak ada QuizzRoom</p>
+                  </div>
+                )}
+                {kelas.map((i: any, idx: any) => {
+                  return (
+                    <Link
+                      key={idx}
+                      href={`/room/${i._id}`}
+                      className="flex flex-col gap-2 justify-start relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
+                    >
+                      <span className="font-poppins-bold text-[2rem]">
+                        {i.label}
+                      </span>
+                      <span className="font-poppins-medium text-medium text-[.8rem]">
+                        {i.studentsRef.length} students
+                      </span>
+                    </Link>
+                  );
+                })}
 
                 {/* {quiz.map((i: any, idx: any) => {
                 return (
@@ -156,7 +163,7 @@ export default function page({ params }: { params: { name: string } }) {
 
                 <Link
                   href="/room/create"
-                  className="flex flex-col gap-2 justify-start relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
+                  className="flex flex-col gap-2 justify-center items-center relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

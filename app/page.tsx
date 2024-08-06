@@ -5,9 +5,7 @@ export default function Home() {
     <main className="text-slate-100 px-[20px]">
       <div className="py-[100px] text-center">
         <h3 className="text-[2.3rem] font-poppins-bold">Welcome!</h3>
-        <p>
-          Create or join quizzes seamlessly with Qroom!
-        </p>
+        <p>Create or join quizzes seamlessly with Qroom!</p>
         <div className="flex gap-[15px] my-[20px] justify-center">
           <Link href={"/quiz"} className="btn text-white bg-grey">
             Join Quiz
@@ -19,9 +17,12 @@ export default function Home() {
       </div>
 
       <div>
-        <div className="flex flex-col md:flex-row text-center my-[50px]">
+        <div className="flex flex-col text-center my-[50px]">
           <h3 className="text-[2.3rem] font-poppins-bold">Why use Qroom?</h3>
-          <p>Everything you need to create and take quizzes is here. Take a look at some of the features!</p>
+          <p>
+            Everything you need to create and take quizzes is here. Take a look
+            at some of the features!
+          </p>
         </div>
 
         <div className="py-[20px] grid grid-cols-1 md:grid-cols-2 gap-5 md:px-[200px]">
@@ -31,7 +32,8 @@ export default function Home() {
               Safe Exam
             </h5>
             <p className="text-center">
-              Automatically warn students if they switch between tabs in the browser.
+              Automatically warn students if they switch between tabs in the
+              browser.
             </p>
           </div>
 
@@ -45,7 +47,8 @@ export default function Home() {
               Create Classroom
             </h5>
             <p className="text-center">
-              Easier class organization just like in Google Clsasroom, but better!
+              Easier class organization just like in Google Clsasroom, but
+              better!
             </p>
           </div>
         </div>

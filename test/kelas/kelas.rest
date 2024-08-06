@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/kelas?c=66afaa00274699aefbdc3daa
+GET http://localhost:3000/api/kelas?c=66b0cd4a7c7910f8a1c3b69b
 
 ###
 POST http://localhost:3000/api/account

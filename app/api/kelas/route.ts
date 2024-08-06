@@ -1,6 +1,7 @@
 import Kelas from "@/models/kelas";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongoose";
+import Account from "@/models/account";
 
 export async function GET(req: any) {
   const classId = req.nextUrl.searchParams.get("c") as string;
@@ -31,6 +32,12 @@ export async function POST(req: any) {
       studentsRef,
       quizRef,
     });
+    console.log(teachersRef[0]);
+    const updateUser = await Account.findById(teachersRef[0]);
+    let tmp = updateUser.classId;
+    tmp.push(res._id);
+    updateUser.classId = tmp;
+    await updateUser.save();
     console.log(res);
     return NextResponse.json(res, { status: 201 });
   } catch (error) {

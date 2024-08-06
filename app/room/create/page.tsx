@@ -19,6 +19,7 @@ export default function page() {
       label,
       teachersRef: [resUser.data._id],
     });
+
     console.log(res);
     setSuccess(true);
   };
