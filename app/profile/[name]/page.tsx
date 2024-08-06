@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserNotFound from "@/app/components/UserNotFound";
 import axios from "axios";
-import CardJoin from "@/app/components/CardJoin";
 
 type User = {
   _id: string;
@@ -110,7 +109,7 @@ export default function page({ params }: { params: { name: string } }) {
               </div>
             </div>
 
-            {/* quiz */}
+            {/* quizroom */}
             <div className="md:w-2/3">
               <p className="font-poppins-bold uppercase text-white text-center text-[2rem]">
                 QuizRoom
@@ -179,6 +178,80 @@ export default function page({ params }: { params: { name: string } }) {
                   </svg>
                   <span className="font-poppins-bold text-lg">
                     Create a QuizRoom
+                  </span>
+                </Link>
+              </div>
+            </div>
+            
+            {/* quiz */}
+            <div className="md:w-2/3">
+              <p className="font-poppins-bold uppercase text-white text-center text-[2rem]">
+                Recent Quiz
+              </p>
+
+              {/* card quiz */}
+              <div className="flex flex-col gap-[20px] py-[30px]">
+                {quiz[0] === undefined && (
+                  <div className="flex flex-col gap-2 justify-center items-center relative p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto">
+                    <p>You haven't joined or created any quiz yet</p>
+                  </div>
+                )}
+                {quiz.map((i: any, idx: any) => {
+                  return (
+                    <Link
+                      key={idx}
+                      href={`/quiz/${i.code}`}
+                      className="flex flex-col gap-2 justify-start relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
+                    >
+                      <span className="font-poppins-bold text-[2rem]">
+                      {i.headline}
+                    </span>
+                    <span className="font-poppins-medium text-medium text-[.8rem]">
+                      {i.description}
+                    </span>
+                    </Link>
+                  );
+                })}
+
+                {/* {quiz.map((i: any, idx: any) => {
+                return (
+                  <Link
+                    href={`/quiz/${i.code}/result`}
+                    className="flex flex-col gap-2 justify-start m-8 p-4 rounded-md bg-grey text-white"
+                  >
+                    <span className="font-poppins-bold text-[2rem]">
+                      {i.headline}
+                    </span>
+                    <span className="font-poppins-medium text-medium text-[.8rem]">
+                      {i.description}
+                    </span>
+                    <p>code : {i.code}</p>
+                    <span className="font-poppins-bold text-base text-center">
+                      Tap to see result
+                    </span>
+                  </Link>
+                );
+              })} */}
+                {/* <CardClass status={status} quiz={quiz} /> */}
+
+                <Link
+                  href="/quiz/create"
+                  className="flex flex-col gap-2 justify-center items-center relative bg-grey p-4 rounded-md text-white overflow-hidden h-[150px] w-[90%] md:w-[80%] mx-auto"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <span className="font-poppins-bold text-lg">
+                    Create a Quiz
                   </span>
                 </Link>
               </div>
