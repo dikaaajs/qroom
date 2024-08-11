@@ -34,8 +34,6 @@ export default function page({ params }: { params: { id: string } }) {
     getData();
   }, []);
 
-  console.log(answer);
-
   return (
     <div className="min-h-screen">
       {!answer ? (

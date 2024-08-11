@@ -80,8 +80,6 @@ export async function PATCH(req: any) {
   const id = req.nextUrl.searchParams.get("v");
   const { headline, questions } = await req.json();
 
-  console.log(questions);
-
   try {
     const kuis = await Kuis.findById(id);
     if (headline !== undefined) {

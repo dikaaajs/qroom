@@ -54,7 +54,6 @@ export async function GET(req: any) {
     } else if (username) {
       let res = await Account.findOne({ username }).select("-password");
       const kelas = await Kelas.find({ _id: { $in: res.classId } });
-      const response = {};
       return NextResponse.json({ ...res._doc, kelas }, { status: 200 });
     } else {
       const res = await Account.find().select("-password");
